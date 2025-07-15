@@ -39,10 +39,10 @@ const allSSOProviders = ['azure', 'google', 'auth0', 'github']
 export class IdentityManager {
     private static instance: IdentityManager
     private stripeManager?: StripeManager
-    licenseValid: boolean = false
+    licenseValid: boolean = true
     permissions: Permissions
     ssoProviderName: string = ''
-    currentInstancePlatform: Platform = Platform.OPEN_SOURCE
+    currentInstancePlatform: Platform = Platform.ENTERPRISE
     // create a map to store the sso provider name and the sso provider instance
     ssoProviders: Map<string, SSOBase> = new Map()
 
@@ -55,7 +55,7 @@ export class IdentityManager {
     }
 
     public async initialize() {
-        await this._validateLicenseKey()
+        //await this._validateLicenseKey()
         this.permissions = new Permissions()
         if (process.env.STRIPE_SECRET_KEY) {
             this.stripeManager = await StripeManager.getInstance()
@@ -71,7 +71,7 @@ export class IdentityManager {
     }
 
     public isEnterprise = () => {
-        return this.currentInstancePlatform === Platform.ENTERPRISE
+        return true
     }
 
     public isCloud = () => {
